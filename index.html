@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Saber | السابر</title>
+    <title>Books</title>
     <style>
       @font-face {
         font-family: "Qatar Font";
@@ -100,7 +100,7 @@
       <div class="flex justify-between items-center p-4">
         <h2 id="cartHeading" class="text-xl text-white font-bold">Your Cart</h2>
         <button
-          onclick="closeDrawer()"
+          onclick="toggleCartDrawer()"
           class="text-white hover:text-gray-500 px-4 py-2 text-3xl"
         >
           &times;
@@ -195,7 +195,7 @@
                 <!-- Notification for the number of items in the cart -->
                 <span
                   id="cartItemCount"
-                  class="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
+                  class="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center rtl"
                   >0</span
                 >
               </button>
@@ -241,7 +241,7 @@
                     data-book-name="Saber"
                     data-book-price="200"
                     class="bg-[#961F3D] text-white py-2 px-3 rounded-lg hover:bg-[#7C0624] transition-all duration-300"
-                    onclick="increment('Saber', 300, 'assets/Saber.jpg')"
+                    onclick="increment('Saber', 250, 'assets/Saber.jpg')"
                   >
                     Add to Cart
                   </button>
@@ -720,30 +720,32 @@
         // Refresh the drawer to reflect updated cart contents
         checkAndToggleDrawer();
       }
-
       function decrement(bookName, bookPrice, bookImage) {
-        const quantityElement = document.getElementById(`quantity-${bookName}`);
+  const quantityElement = document.getElementById(`quantity-${bookName}`);
 
-        if (quantityElement) {
-          let quantity = parseInt(quantityElement.textContent);
+  if (quantityElement) {
+    let quantity = parseInt(quantityElement.textContent);
 
-          if (quantity > 1) {
-            // Decrease quantity
-            quantityElement.textContent = quantity - 1;
-            updateCart(bookName, quantity - 1, bookPrice, bookImage);
-          } else {
-            // When quantity goes to 0, remove from cart and UI
-            quantityElement.textContent = 0;
-            updateCart(bookName, 0, bookPrice, bookImage);
+    if (quantity > 1) {
+      // Decrease quantity
+      quantityElement.textContent = quantity - 1;
+      updateCart(bookName, quantity - 1, bookPrice, bookImage);
+    } else {
+      // When quantity reaches 0, remove the item from cart and UI
+      updateCart(bookName, 0, bookPrice, bookImage);
 
-            // Remove item from the cart UI
-            const container = document.getElementById(`cart-item-${bookName}`);
-            if (container) {
-              container.remove();
-            }
-          }
-        }
+      // Remove the item from the UI
+      const container = document.getElementById(`cart-item-${bookName}`);
+      if (container) {
+        container.remove();
       }
+    }
+    
+    // Update cart drawer to recalculate totals
+    const cart = JSON.parse(localStorage.getItem("cart")) || {};
+    updateCartDrawer(cart);
+  }
+}
 
       function updateCart(bookName, quantity, bookPrice, bookImage) {
         let cart = JSON.parse(localStorage.getItem("cart")) || {};
