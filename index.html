@@ -819,7 +819,7 @@
       const bookNameTranslations = {
         "book-name-1": {
           en: "Saber",
-          ar: "صابر",
+          ar: "سابر",
         },
         "book-name-2": {
           en: "From the eyes of Qatari poetry",
@@ -827,7 +827,7 @@
         },
         "book-name-3": {
           en: "First building",
-          ar: "أول مبنى",
+          ar: "بنيان الاول",
         },
         // You can add more mappings here
       };
@@ -948,101 +948,114 @@
       }
     </script>
 
-    <script>
-      const toggleInput = document.getElementById("toggle");
-      const toggleText = document.getElementById("toggle-text");
+   <script>
+  const toggleInput = document.getElementById("toggle");
+  const toggleText = document.getElementById("toggle-text");
 
-      const bookNames = {
-        "book-name-1": {
-          en: "Saber",
-          ar: "صابر",
-        },
-        "book-name-2": {
-          en: "From the eyes of Qatari poetry",
-          ar: "من عيون الشعر القطري",
-        },
-        "book-name-3": {
-          en: "First building",
-          ar: "أول مبنى",
-        },
-      };
+  const bookNames = {
+    "book-name-1": {
+      en: "Saber",
+      ar: "سابر",
+    },
+    "book-name-2": {
+      en: "From the eyes of Qatari poetry",
+      ar: "من عيون الشعر القطري",
+    },
+    "book-name-3": {
+      en: "First building",
+      ar: "بنيان الاول",
+    },
+  };
 
-      const bookDescriptions = {
-        "book-description-1": {
-          en: "Discover the beauty of birds through stunning photography. This book captures their vibrant colors and unique behaviors, bringing the magic of the avian world to every page.",
-          ar: "اكتشف جمال الطيور من خلال التصوير الفوتوغرافي المذهل. يلتقط هذا الكتاب ألوانها الزاهية وسلوكياتها الفريدة، جالباً سحر عالم الطيور إلى كل صفحة.",
-        },
-        "book-description-2": {
-          en: "Through lyrical verses and evocative imagery, it invites readers on a journey through the heart's quietest corners. A collection where every word resonates with raw, honest emotion.",
-          ar: "من خلال الأبيات الشعرية والصور المثيرة، يدعو القراء إلى رحلة عبر أهدأ زوايا القلب. مجموعة حيث يرن كل كلمة بالعاطفة الصادقة.",
-        },
-        "book-description-3": {
-          en: "First Building delves into the innovative spirit driving the nation's skyline, blending modern skyscrapers with rich heritage. This book showcases how tradition and cutting-edge construction seamlessly intersect.",
-          ar: "يتناول أول مبنى الروح المبتكرة التي تدفع أفق الأمة، ممزوجًا بين ناطحات السحاب الحديثة والتراث الغني. يعرض هذا الكتاب كيف يتداخل التقليد والبناء المتطور بسلاسة.",
-        },
-      };
+  const bookDescriptions = {
+    "book-description-1": {
+      en: "Discover the beauty of birds through stunning photography. This book captures their vibrant colors and unique behaviors, bringing the magic of the avian world to every page.",
+      ar: "اكتشف جمال الطيور من خلال التصوير الفوتوغرافي المذهل. يلتقط هذا الكتاب ألوانها الزاهية وسلوكياتها الفريدة، جالباً سحر عالم الطيور إلى كل صفحة.",
+    },
+    "book-description-2": {
+      en: "Through lyrical verses and evocative imagery, it invites readers on a journey through the heart's quietest corners. A collection where every word resonates with raw, honest emotion.",
+      ar: "من خلال الأبيات الشعرية والصور المثيرة، يدعو القراء إلى رحلة عبر أهدأ زوايا القلب. مجموعة حيث يرن كل كلمة بالعاطفة الصادقة.",
+    },
+    "book-description-3": {
+      en: "First Building delves into the innovative spirit driving the nation's skyline, blending modern skyscrapers with rich heritage. This book showcases how tradition and cutting-edge construction seamlessly intersect.",
+      ar: "يتناول أول مبنى الروح المبتكرة التي تدفع أفق الأمة، ممزوجًا بين ناطحات السحاب الحديثة والتراث الغني. يعرض هذا الكتاب كيف يتداخل التقليد والبناء المتطور بسلاسة.",
+    },
+  };
 
-      const toggleTexts = {
-        "add-to-cart-text": {
-          en: "Add to Cart",
-          ar: "أضف إلى السلة",
-        },
+  const toggleTexts = {
+    "add-to-cart-text": {
+      en: "Add to Cart",
+      ar: "أضف إلى السلة",
+    },
+    "preview-text": {
+      en: "Preview",
+      ar: "معاينة",
+    },
+    "buy-text": {
+      en: "Buy",
+      ar: "شراء",
+    },
+  };
 
-        "preview-text": {
-          en: "Preview",
-          ar: "معاينة",
-        },
+  toggleInput.addEventListener("change", function () {
+    const isChecked = this.checked;
+    const language = isChecked ? "ar" : "en"; // Use "ar" for Arabic, "en" for English
 
-        "buy-text": {
-          en: "Buy",
-          ar: "شراء",
-        },
-      };
+    // Update toggle text
+    toggleText.textContent = isChecked ? "Ar" : "En";
 
-      toggleInput.addEventListener("change", function () {
-        const isChecked = this.checked;
-        const language = isChecked ? "ar" : "en"; // Use "ar" for Arabic, "en" for English
+    // Update book names and descriptions
+    Object.keys(bookNames).forEach((id) => {
+      document.getElementById(id).textContent = isChecked
+        ? bookNames[id].ar
+        : bookNames[id].en;
+    });
 
-        // Update toggle text
-        toggleText.textContent = isChecked ? "Ar" : "En";
+    Object.keys(bookDescriptions).forEach((id) => {
+      document.getElementById(id).textContent = isChecked
+        ? bookDescriptions[id].ar
+        : bookDescriptions[id].en;
+    });
 
-        // Update book names and descriptions
-        Object.keys(bookNames).forEach((id) => {
-          document.getElementById(id).textContent = isChecked
-            ? bookNames[id].ar
-            : bookNames[id].en;
-        });
+    // Update the cart drawer with the selected language
+    const cart = JSON.parse(localStorage.getItem("cart")) || {};
+    updateCartDrawer(cart, language); // Pass the current language to updateCartDrawer
 
-        Object.keys(bookDescriptions).forEach((id) => {
-          document.getElementById(id).textContent = isChecked
-            ? bookDescriptions[id].ar
-            : bookDescriptions[id].en;
-        });
+    // Toggle RTL class based on language
+    if (isChecked) {
+      document.querySelector(".dot").style.transform = "translateX(100%)";
+      document.body.classList.add("rtl"); // Adds RTL class when checked
+    } else {
+      document.querySelector(".dot").style.transform = "translateX(0%)";
+      document.body.classList.remove("rtl"); // Removes RTL class when unchecked
+    }
+  });
 
-        // Update the cart drawer with the selected language
-        const cart = JSON.parse(localStorage.getItem("cart")) || {};
-        updateCartDrawer(cart, language); // Pass the current language to updateCartDrawer
+  window.onload = function () {
+    // By default, we want the language to be Arabic
+    toggleInput.checked = true; // Set the toggle to checked (Arabic)
+    toggleText.textContent = "Ar"; // Set the initial toggle text to Arabic
 
-        // Toggle RTL class based on language
-        if (isChecked) {
-          toggleText.textContent = "Ar"; // Show 'Ar' when checked
-          document.querySelector(".dot").style.transform = "translateX(100%)";
-          document.body.classList.add("rtl"); // Adds RTL class when checked
-        } else {
-          toggleText.textContent = "En"; // Show 'En' when not checked
-          document.querySelector(".dot").style.transform = "translateX(0%)";
-          document.body.classList.remove("rtl"); // Removes RTL class when unchecked
-        }
-      });
+    // Update the content to Arabic by default
+    Object.keys(bookNames).forEach((id) => {
+      document.getElementById(id).textContent = bookNames[id].ar;
+    });
 
-      window.onload = function () {
-        const isChecked = toggleInput.checked;
-        const language = isChecked ? "ar" : "en";
+    Object.keys(bookDescriptions).forEach((id) => {
+      document.getElementById(id).textContent = bookDescriptions[id].ar;
+    });
 
-        // Update the cart drawer with the correct language on load
-        const cart = JSON.parse(localStorage.getItem("cart")) || {};
-        updateCartDrawer(cart, language);
-      };
-    </script>
+    // Add the RTL class to the body
+    document.body.classList.add("rtl");
+
+    // Update the cart drawer with the Arabic language
+    const cart = JSON.parse(localStorage.getItem("cart")) || {};
+    updateCartDrawer(cart, "ar");
+
+    // Move the toggle dot to the "Ar" position
+    document.querySelector(".dot").style.transform = "translateX(100%)";
+  };
+</script>
+
   </body>
 </html>
