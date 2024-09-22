@@ -836,14 +836,14 @@
       function getTranslatedBookName(bookName, language) {
         // Find the matching key in bookNameTranslations
         for (const key in bookNameTranslations) {
-          if (bookName.includes(bookNameTranslations[key].en)) {
+          if (bookName.includes(bookNameTranslations[key].ar)) {
             return bookNameTranslations[key][language]; // Return translated name
           }
         }
         return bookName; // Return the original name if no match is found
       }
 
-      function updateCartDrawer(cart, language = "en") {
+      function updateCartDrawer(cart, language = "ar") {
         const cartItemsDiv = document.getElementById("cartItems");
         cartItemsDiv.innerHTML = ""; // Clear previous items
 
