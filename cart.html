@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Cart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 p-6">
+    <!-- Cart Items -->
+    <div id="cart-items-container" class="mb-6">
+
+    </div>
+
+    <!-- Total Summary -->
+    <div id="cart-summary" class="bg-white rounded-lg shadow-lg p-4 mb-6">
+      <p class="text-lg font-bold">
+        Total Books: <span id="total-books">0</span>
+      </p>
+      <p class="text-lg font-bold">
+        Total Amount: QAR <span id="total-amount">0</span>
+      </p>
+    </div>
+
+    <!-- Clear Cart Button -->
+    <button
+      id="clear-cart-btn"
+      class="bg-[#961F3D] text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-all duration-300 mb-4"
+    >
+      Clear Cart
+    </button>
+
+    <!-- Continue Shopping Button -->
+    <a
+      href="index.html"
+     
+    >
+    <button
+    id="clear-cart-btn"
+    class="bg-[#978768] text-white py-2 px-4 rounded-lg hover:bg-black transition-all duration-300 mb-4"
+  >
+    Continue Shopping
+  </button>
+    </a>
+
+    <script>
+      // Function to load cart items from localStorage
+      function loadCartItems() {
+        let cart = JSON.parse(localStorage.getItem("cart")) || {};
+        const cartContainer = document.getElementById("cart-items-container");
+        const totalBooksElement = document.getElementById("total-books");
+        const totalAmountElement = document.getElementById("total-amount");
+
+        cartContainer.innerHTML = "";
+
+        let totalAmount = 0;
+        let totalBooks = 0;
+
+        for (const bookName in cart) {
+          if (cart.hasOwnProperty(bookName)) {
+            const { quantity, price } = cart[bookName];
+            totalAmount += quantity * price;
+            totalBooks += quantity;
+
+            cartContainer.innerHTML += `
+            <div class="bg-white rounded-lg shadow-lg p-4 mb-4 flex justify-between items-center">
+              <div>
+                <h2 class="text-xl font-bold text-gray-800">${bookName}</h2>
+                <p class="text-gray-600">QAR ${price}</p>
+              </div>
+              <div class="flex items-center space-x-4">
+                <button onclick="decrementCartItem('${bookName}', ${price})" class="bg-[#978768] text-white w-8 h-8 rounded-full flex justify-center items-center hover:bg-[#867D6B] transition duration-300">
+                  -
+                </button>
+                <span id="cart-quantity-${bookName}" class="text-lg font-semibold">${quantity}</span>
+                <button onclick="incrementCartItem('${bookName}', ${price})" class="bg-[#961F3D] text-white w-8 h-8 rounded-full flex justify-center items-center hover:bg-[#7C0624] transition duration-300">
+                  +
+                </button>
+              </div>
+            </div>
+          `;
+          }
+        }
+
+        // Update total summary
+        totalBooksElement.textContent = totalBooks;
+        totalAmountElement.textContent = totalAmount.toFixed(2);
+
+        // If the cart is empty
+        if (Object.keys(cart).length === 0) {
+          cartContainer.innerHTML =
+            '<p class="text-lg text-gray-600">Your cart is empty.</p>';
+        }
+      }
+
+      // Function to increment cart item quantity in cart.html
+      function incrementCartItem(bookName, bookPrice) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || {};
+        if (cart[bookName]) {
+          cart[bookName].quantity += 1;
+          localStorage.setItem("cart", JSON.stringify(cart));
+          document.getElementById(`cart-quantity-${bookName}`).textContent =
+            cart[bookName].quantity;
+          updateIndexPage(bookName, cart[bookName].quantity); // Update index.html
+          loadCartItems(); // Reload cart to update total
+        }
+      }
+
+      // Function to decrement cart item quantity in cart.html
+      function decrementCartItem(bookName, bookPrice) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || {};
+        if (cart[bookName] && cart[bookName].quantity > 1) {
+          cart[bookName].quantity -= 1;
+          localStorage.setItem("cart", JSON.stringify(cart));
+          document.getElementById(`cart-quantity-${bookName}`).textContent =
+            cart[bookName].quantity;
+          updateIndexPage(bookName, cart[bookName].quantity); // Update index.html
+          loadCartItems(); // Reload cart to update total
+        } else if (cart[bookName] && cart[bookName].quantity === 1) {
+          delete cart[bookName];
+          localStorage.setItem("cart", JSON.stringify(cart));
+          loadCartItems(); // Reload cart after removing the item
+          updateIndexPage(bookName, 0); // Reset index.html button
+        }
+      }
+
+      // Function to update index.html's card quantity
+      function updateIndexPage(bookName, quantity) {
+        let cardId = {
+              "Saber": 1,
+              "From the eyes of Qatari poetry": 2,
+              "First building": 3,
+        }[bookName];
+
+        if (quantity > 0) {
+          // Update quantity on index.html cards
+          localStorage.setItem(`quantity-${cardId}`, quantity); // Save to localStorage
+        } else {
+          localStorage.removeItem(`quantity-${cardId}`); // Remove if 0
+        }
+      }
+
+      // Function to clear the cart
+      document.getElementById("clear-cart-btn").onclick = function () {
+        localStorage.removeItem("cart");
+        loadCartItems();
+        resetIndexPage(); // Reset index.html's Add to Cart buttons
+      };
+
+      // Function to reset Add to Cart buttons on index.html
+      function resetIndexPage() {
+        localStorage.removeItem("quantity-1");
+        localStorage.removeItem("quantity-2");
+        localStorage.removeItem("quantity-3");
+      }
+
+      // Load cart items on page load
+      window.onload = loadCartItems;
+    </script>
+  </body>
+</html>

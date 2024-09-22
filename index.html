@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Saber | السابر</title>
+    <style>
+      @font-face {
+        font-family: "Qatar Font";
+        src: url("assets/font/QatarFont-Regular.woff2") format("woff2"),
+          url("assets/font/QatarFont-Regular.woff") format("woff");
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "QatarFont";
+        src: url("assets/font/QatarFont-Regular.otf") format("opentype");
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+      body {
+        font-family: "Qatar Font";
+        font-weight: normal;
+        font-style: normal;
+      }
+      .rtl {
+        font-family: "QatarFont" !important;
+      }
+      .rtl .toggleswitch {
+        flex-direction: row-reverse;
+      }
+      .birds_btn {
+        background: url("assets/pattern.png");
+        background-size: 20px;
+        position: relative;
+        cursor: pointer;
+        overflow: hidden;
+        transition: 0.5s ease-in-out;
+        border: 1px solid #901837;
+      }
+      .birds_btn img {
+        position: relative;
+        z-index: 10;
+        transition: 0.2s ease-in-out;
+        zoom: 100%;
+      }
+      .birds_btn:hover {
+        border: 15px solid #901837;
+      }
+      .birds_btn::after {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        width: calc(100% - 20px);
+        height: calc(100% - 20px);
+        background-color: #fff;
+        content: "";
+        z-index: 1;
+        border-radius: 50%;
+        transition: 0.5s ease-out;
+      }
+      .birds_btn:hover::after {
+        left: 5px;
+        top: 5px;
+        width: calc(100% - 10px);
+        height: calc(100% - 10px);
+        background-color: #9a8764;
+      }
+
+      .preview-btn:hover .icon {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .icon {
+        opacity: 0;
+        transform: translateX(-30px);
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+    </style>
+    <!-- Fancybox CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"
+    />
+
+    <!-- Fancybox JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="overflow-x-hidden bg-white">
+    <div
+      id="cartDrawer"
+      class="fixed right-[-100%] top-0 w-[80%] sm:w-64 md:w-72 lg:w-96 h-full bg-[#961F3D] shadow-lg transition-transform duration-300 z-50 flex flex-col"
+    >
+      <div class="flex justify-between items-center p-4">
+        <h2 id="cartHeading" class="text-xl text-white font-bold">Your Cart</h2>
+        <button
+          onclick="closeDrawer()"
+          class="text-white hover:text-gray-500 px-4 py-2 text-3xl"
+        >
+          &times;
+          <!-- Close icon -->
+        </button>
+      </div>
+
+      <div id="cartItems" class="flex-1 p-4 overflow-y-auto">
+        <!-- Cart items will be injected here -->
+      </div>
+      <div class="p-4">
+        <button
+          onclick="clearCart()"
+          class="w-full bg-black text-white py-2 rounded-lg hover:bg-[#7C0624] transition duration-300 rtl:text-QatarFont"
+        >
+          Clear Cart
+        </button>
+      </div>
+
+      <div class="border-t p-4">
+        <button
+          onclick="checkout()"
+          class="w-full bg-[#978768] text-white py-2 rounded-lg hover:bg-[#B19765] transition duration-300"
+        >
+          Checkout
+        </button>
+      </div>
+    </div>
+    <div id="mainContent">
+      <section class="w-full bg-white pt-5 pb-5 md:pt-10 md:pb-10">
+        <div
+          class="w-[95%] flex flex-col justify-center items-center mx-auto h-full"
+        >
+          <!-- Ministry Logo -->
+          <div class="w-[40%] xl:w-[15%] mx-auto mt-2 mb-2 md:mt-2 reveal-top">
+            <img
+              src="assets/Primary-Logo-Bilingual-RGB_Ministry-of-Culture.png"
+              alt=""
+            />
+          </div>
+
+          <!-- <div class="w-[40%] mx-auto xl:w-[20%] reveal-bottom mt-5 mb-5 bg-black">
+                <img src="assets/logo_reverse.svg" alt="">
+            </div> -->
+
+          <div class="flex items-center pt-10 toggleswitch">
+            <!-- Toggle Button for "En" and "Ar" -->
+            <div
+              class="relative inline-block w-16 select-none transition duration-300 ease-in"
+            >
+              <input
+                type="checkbox"
+                name="toggle"
+                id="toggle"
+                class="sr-only"
+              />
+              <label for="toggle" class="block cursor-pointer">
+                <!-- Background of the toggle -->
+                <div
+                  class="toggle-bg bg-gray-300 border-2 border-transparent h-8 w-full rounded-full"
+                ></div>
+                <!-- Toggle circle with text inside -->
+                <div
+                  class="dot absolute left-0 top-0 bg-[#961F3D] w-8 h-8 rounded-full flex items-center justify-center transition transform duration-300"
+                >
+                  <span id="toggle-text" class="text-xs text-white">En</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Cart Button with Cart Icon and Item Count -->
+            <div class="p-4">
+              <button
+                onclick="toggleCartDrawer()"
+                class="relative bg-[#9a8764] text-white px-4 py-3 rounded-lg hover:bg-[#9a8764] hover:scale-105 transition-all duration-300"
+              >
+                <!-- Cart Icon (using an SVG) -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 inline-block"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3 3h2l.4 2M7 13h10l1-5H6l1 5zm-2 6a1 1 0 100-2 1 1 0 000 2zm12 0a1 1 0 100-2 1 1 0 000 2z"
+                  />
+                </svg>
+                <!-- Notification for the number of items in the cart -->
+                <span
+                  id="cartItemCount"
+                  class="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
+                  >0</span
+                >
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-10 md:mt-10 md:gap-6 mb-10"
+          >
+            <!-- Book Card 1 -->
+            <div
+              id="book-card-1"
+              class="book-card bg-white relative rounded-lg shadow-lg overflow-hidden w-full max-w-xs p-5 transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl"
+            >
+              <img
+                src="assets/Saber.jpg"
+                alt="Book 1 Cover"
+                class="w-full h-64 object-cover rounded-lg mb-4"
+              />
+              <h2 id="book-name-1" class="text-xl font-bold text-gray-800 mb-2">
+                Saber
+              </h2>
+              <p id="book-description-1" class="text-gray-600 mb-4">
+                Discover the beauty of birds through stunning photography. This
+                book captures their vibrant colors and unique behaviors,
+                bringing the magic of the avian world to every page.
+              </p>
+              <p class="text-2xl font-semibold text-gray-800 mb-5">
+                QAR <span class="rtl">250</span>
+              </p>
+
+              <div class="flex justify-between">
+                <a data-fancybox data-src="#saber-book">
+                  <button
+                    class="buy-btn bg-[#9a8764] text-white py-2 px-4 rounded-lg hover:bg-[#961F3D] hover:scale-105 transition-all duration-300"
+                  >
+                    <span id="preview-text-1">Preview</span>
+                  </button>
+                </a>
+                <div id="cart-button-container-1">
+                  <button
+                    id="add-to-cart-btn-1"
+                    data-book-name="Saber"
+                    data-book-price="200"
+                    class="bg-[#961F3D] text-white py-2 px-3 rounded-lg hover:bg-[#7C0624] transition-all duration-300"
+                    onclick="increment('Saber', 300, 'assets/Saber.jpg')"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Book Card 2 -->
+            <div
+              id="book-card-2"
+              class="book-card bg-white relative rounded-lg shadow-lg overflow-hidden w-full max-w-xs p-5 transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl"
+            >
+              <img
+                src="assets/poetry.jpg"
+                alt="Book 2 Cover"
+                class="w-full h-64 object-cover rounded-lg mb-4"
+              />
+              <h2 id="book-name-2" class="text-xl font-bold text-gray-800 mb-2">
+                From the eyes of Qatari poetry
+              </h2>
+              <p id="book-description-2" class="text-gray-600 mb-4">
+                Through lyrical verses and evocative imagery, it invites readers
+                on a journey through the heart's quietest corners. A collection
+                where every word resonates with raw, honest emotion.
+              </p>
+              <p class="text-2xl font-semibold text-gray-800 mb-5">
+                QAR <span class="rtl">300</span>
+              </p>
+              <div class="flex justify-between">
+                <a data-fancybox data-src="#poetry-book">
+                  <button
+                    class="buy-btn bg-[#9a8764] text-white py-2 px-4 rounded-lg hover:bg-[#961F3D] hover:scale-105 transition-all duration-300"
+                  >
+                    <span id="preview-text-2">Preview</span>
+                  </button>
+                </a>
+                <div id="cart-button-container-2">
+                  <button
+                    id="add-to-cart-btn-2"
+                    data-book-name="From the eyes of Qatari poetry"
+                    data-book-price="300"
+                    class="bg-[#961F3D] text-white py-2 px-3 rounded-lg hover:bg-[#7C0624] transition-all duration-300"
+                    onclick="increment('From the eyes of Qatari poetry', 300, 'assets/poetry.jpg')"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Book Card 3 -->
+            <div
+              id="book-card-3"
+              class="book-card bg-white relative rounded-lg shadow-lg overflow-hidden w-full max-w-xs p-5 transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl"
+            >
+              <img
+                src="assets/duharil.jpg"
+                alt="Book 3 Cover"
+                class="w-full h-64 object-cover rounded-lg mb-4"
+              />
+              <h2 id="book-name-3" class="text-xl font-bold text-gray-800 mb-2">
+                First building
+              </h2>
+              <p id="book-description-3" class="text-gray-600 mb-4">
+                First Building delves into the innovative spirit driving the
+                nation's skyline, blending modern skyscrapers with rich
+                heritage. This book showcases how tradition and cutting-edge
+                construction seamlessly intersect.
+              </p>
+              <p class="text-2xl font-semibold text-gray-800 mb-5">
+                QAR <span class="rtl">300</span>
+              </p>
+              <div class="flex justify-between">
+                <a data-fancybox data-src="#building-book">
+                  <button
+                    class="buy-btn bg-[#9a8764] text-white py-2 px-4 rounded-lg hover:bg-[#961F3D] hover:scale-105 transition-all duration-300"
+                  >
+                    <span id="preview-text-3">Preview</span>
+                  </button>
+                </a>
+                <div id="cart-button-container-3">
+                  <button
+                    id="add-to-cart-btn-3"
+                    data-book-name="First building"
+                    data-book-price="300"
+                    class="bg-[#961F3D] text-white py-2 px-3 rounded-lg hover:bg-[#7C0624] transition-all duration-300"
+                    onclick="increment('First building', 300, 'assets/duharil.jpg')"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--break-->
+        </div>
+      </section>
+    </div>
+
+    <section class="h-full">
+      <div class="pt-10 pb-2 xl:pt-20 xl:pb-10">
+        <div class="w-[90%] mx-auto">
+          <div class="flex flex-col xl:flex-row xl:gap-10 xl:mt-14 hidden">
+            <!-- Arabic Text Column -->
+            <div class="w-full xl:w-1/2 text-end reveal-left text_column">
+              <h1
+                class="text-xl md:text-3xl lg:text-4xl reveal-left text-yellow-700 rtl"
+              >
+                مقدمة
+              </h1>
+              <p class="mt-2 md:text-xl lg:text-lg xl:mt-5 rtl">
+                كتاب سابر، هو حصيلة عمل شاق لفترة أربع سنوات من الجهد و التعب و
+                الصبر، والهدف الرئيسي الذي بدأت به ولا زلت أعمل عليه هو توثيق
+                طير قطر بطرق فنية مختلفة تليق بالذوق العام ليكون كتاباً غنياً
+                بالتغذية البصرية والفكرية.
+              </p>
+              <p class="mt-2 md:text-xl lg:text-lg xl:mt-5 rtl rtl">
+                أرجو أن يكون هذا الكتاب عوناً و مفتاحاً للتعلم في المحافظة على
+                هذه الأرواح الجميلة التي تحافظ على سلامتنا و سلامة بيئتنا من كل
+                خطر وأذى.
+              </p>
+              <h2
+                class="text-lg mt-3 md:text-2xl lg:text-3xl xl:mt-8 reveal-left text-yellow-700 rtl"
+              >
+                السابر
+              </h2>
+              <p class="mt-0.5 md:text-xl lg:text-lg rtl">
+                كلمة عربية و تعني المراقب، وقد تم اختيار هذا الإسم للكتاب لأن
+                طبيعة رصد الطيور تتطلب المراقبة.
+              </p>
+              <h2 class="mt-3 md:text-xl lg:text-lg text-yellow-700 rtl">
+                محمد جاسم الباكر
+              </h2>
+            </div>
+
+            <!-- English Text Column -->
+            <div
+              class="w-full xl:w-1/2 text-start mt-8 xl:mt-0 reveal-right text_column"
+            >
+              <h1
+                class="text-xl md:text-3xl lg:text-4xl reveal-right text-yellow-700"
+              >
+                Foreword
+              </h1>
+              <p class="mt-2 md:text-xl lg:text-lg xl:mt-5">
+                This book represents four years of unwavering dedication,
+                perseverance, patience, and intellectual pursuit. It embodies
+                the culmination of relentless effort and passion.
+              </p>
+              <p class="mt-2 md:text-xl lg:text-lg xl:mt-5">
+                I sincerely hope that it serves as a valuable guide, unlocking
+                insights into the preservation of these magnificent beings. They
+                safeguard not only our well-being but also the health and
+                integrity of our environment, shielding it from harm and peril.
+              </p>
+              <h2
+                class="text-lg mt-3 md:text-2xl lg:text-3xl xl:mt-8 reveal-right text-yellow-700"
+              >
+                Saber
+              </h2>
+              <p class="mt-0.5 md:text-xl lg:text-lg">
+                "SABER" is an Arabic word meaning "observer," a fitting title
+                for this book, as the essence of bird monitoring lies in keen
+                observation.
+              </p>
+              <h2 class="mt-3 md:text-xl lg:text-lg text-yellow-700">
+                Mohammed Jassim Al-Baker
+              </h2>
+            </div>
+          </div>
+
+          <!-- QR Code Image -->
+          <!-- <div class="w-[40%] md:w-[35%] xl:w-[15%] mx-auto mt-4 md:mt-4 xl:mt-4 reveal-bottom">
+                    <img src="assets/QR.jpg" alt="" class="p-5 bg-white">
+                </div> -->
+
+          <div
+            class="w-[80%] md:w-[90%] xl:w-[90%] mx-auto mt-8 md:mt-10 xl:mt-20 reveal-bottom text-center text-[#961F3D]"
+          >
+            All rights reserved to the Ministry of Culture - State of Qatar ©
+            2024
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="flex flex-col md:flex-row h-screen hidden" id="poetry-book">
+      <!-- Image Column (60%) -->
+      <div class="w-full md:w-3/5 overflow-hidden">
+        <img
+          src="assets/birds/king-fisher.jpg"
+          alt="Image"
+          class="w-full h-auto object-cover"
+        />
+      </div>
+
+      <!-- Content Column (40%) with custom scrollbar -->
+      <div
+        class="w-full md:w-2/5 bg-white p-8 overflow-y-auto custom-scrollbar"
+      >
+        <h1 class="text-3xl font-bold mb-4 rtl">صياد السمك العادي</h1>
+        <p class="md:text-xl lg:text-lg rtl mb-5">
+          صياد سمك صغير والأجزاء العليا يغطيها اللون الأزرق والأخضر البراق،
+          الأجزاء السفلية محمرة، الزور أبيض مصفر وكذلك بقعة الرقبة، المنقار طويل
+          وقاتم (الأحمر يغطي معظم الفك السفلي لمنقار الأنثى، قارن مع صياد السمك
+          المتوج). الطيران السريع يكون مستقيم ومنخفض على الماء، الظهر المضيئ
+          والذيل واضحان. خجول، وغالباً غير واضح عندما يكون جاثماً، يجلس على فرع
+          يطل على الماء لفترات طويلة قبل الغوص لصيد السمك، ويحوم كذلك.
+        </p>
+
+        <h1 class="text-3xl font-bold mb-4">
+          Common Kingfisher - Alcedo atthis
+        </h1>
+        <p class="md:text-xl lg:text-lg">
+          Small kingfisher with brilliant blue and green upperparts, reddish
+          underparts, but buffish white throat and neck patch and long, dark
+          bill, though female has red on most of lower mandible. In flight,
+          which is swift, direct and low over water, luminous back and tail
+          obvious. Fairly shy, often inconspicuous when perched, sitting on
+          branch over water for long periods before diving for fish; will also
+          hover.
+        </p>
+      </div>
+    </section>
+
+    <section
+      class="flex flex-col md:flex-row h-screen hidden"
+      id="building-book"
+    >
+      <!-- Image Column (60%) -->
+      <div class="w-full md:w-3/5 overflow-hidden">
+        <img
+          src="assets/birds/silver-bill.jpg"
+          alt="Image"
+          class="w-full h-auto object-cover"
+        />
+      </div>
+
+      <!-- Content Column (40%) with custom scrollbar -->
+      <div
+        class="w-full md:w-2/5 bg-white p-8 overflow-y-auto custom-scrollbar"
+      >
+        <h1 class="text-3xl font-bold mb-4 rtl">فضى المنقار الهندي</h1>
+        <p class="md:text-xl lg:text-lg rtl mb-5">
+          بني صغير مبيض اللون ويشبه الحسون. له منقار رمادي فضي مخروطي الشكل،
+          العيون بارزة والذيل أسود مدبب. يشبه كثيراً فضي المنقار الأفريقي ولكن
+          يفرق عنه من غياب الأشكال التمعجية الموجودة على غطائيات الأجنحة
+          والثوالث، ولون العجز وغطائيات أعلى الذيل الضارب للبياض. حواشي ريش
+          الجناح لدى اليافع شاحبة. أليف الى حد ما، ويتواجد بشكل متكرر في مجموعات
+          صغيرة، يجلس متقارباً عندما يجثم، وغالباً يحرك وينقر الذيل. الطيران
+          خفيف مع تموجات قصيرة.
+        </p>
+
+        <h1 class="text-3xl font-bold mb-4">
+          Indian Silverbill - Lanchura malabarica
+        </h1>
+        <p class="md:text-xl lg:text-lg">
+          Small kingfisher with brilliant blue and green upperparts, reddish
+          underparts, but buffish white throat and neck patch and long, dark
+          bill, though female has red on most of lower mandible. In flight,
+          which is swift, direct and low over water, luminous back and tail
+          obvious. Fairly shy, often inconspicuous when perched, sitting on
+          branch over water for long periods before diving for fish; will also
+          hover.
+        </p>
+      </div>
+    </section>
+
+    <section class="flex flex-col md:flex-row h-screen hidden" id="saber-book">
+      <!-- Image Column (60%) -->
+      <div class="w-full md:w-3/5 overflow-hidden">
+        <div
+          class="image-preview-container h-full bg-white p-5 rounded-lg shadow-lg flex flex-col items-center"
+        >
+          <!-- Display Image -->
+          <img
+            id="preview-image"
+            src="assets/saber-book/1.png"
+            alt="Preview"
+            class="w-80 h-80 object-cover rounded-lg mb-4"
+          />
+
+          <!-- Page Indicator -->
+          <div id="page-indicator" class="text-gray-700 font-semibold mb-4">
+            Page <span id="page-number">1</span> of 8
+          </div>
+
+          <!-- Navigation Buttons -->
+          <div class="flex justify-between space-x-4">
+            <button
+              id="prev-btn"
+              class="bg-[#9a8764] text-white py-2 px-6 rounded-lg hover:bg-[#B19765] disabled:opacity-50"
+              disabled
+            >
+              Previous
+            </button>
+            <button
+              id="next-btn"
+              class="bg-[#9a8764] text-white py-2 px-6 rounded-lg hover:bg-[#B19765]"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        const images = [
+          "assets/saber-book/1.png",
+          "assets/saber-book/2.png",
+          "assets/saber-book/3.png",
+          "assets/saber-book/4.png",
+          "assets/saber-book/5.png",
+          "assets/saber-book/6.png",
+          "assets/saber-book/7.png",
+          "assets/saber-book/8.png",
+        ]; // List of images
+        let currentPage = 1;
+
+        const imageElement = document.getElementById("preview-image");
+        const pageNumberElement = document.getElementById("page-number");
+        const prevBtn = document.getElementById("prev-btn");
+        const nextBtn = document.getElementById("next-btn");
+
+        function updatePage() {
+          imageElement.src = images[currentPage - 1]; // Change the image
+          pageNumberElement.textContent = currentPage; // Update the page number
+
+          // Enable/Disable buttons based on the page
+          prevBtn.disabled = currentPage === 1;
+          nextBtn.disabled = currentPage === images.length;
+        }
+
+        // Handle Next button click
+        nextBtn.addEventListener("click", function () {
+          if (currentPage < images.length) {
+            currentPage++;
+            updatePage();
+          }
+        });
+
+        // Handle Previous button click
+        prevBtn.addEventListener("click", function () {
+          if (currentPage > 1) {
+            currentPage--;
+            updatePage();
+          }
+        });
+      </script>
+
+      <!-- Content Column (40%) with custom scrollbar -->
+      |
+      <div
+        class="w-full md:w-2/5 bg-white p-8 overflow-y-auto custom-scrollbar"
+      >
+        <h1 class="text-3xl font-bold mb-4 rtl">النحام الكبير - الفنتير</h1>
+        <p class="md:text-xl lg:text-lg rtl mb-5">
+          من السهل التعرف على النحام فهو من الطيور الخواضة الوردية كبيرة الجسم،
+          الأرجل والرقبة طويلة، وشكل المنقار متميز. النحام الكبير هو الأكثر
+          شيوعاً بين النوعين المتواجدين في المنطقة. الحلة البيضاء للبالغ تكتسب
+          بشكل تدريجي الشكل الوردي والأحمر لغطائيات الأجنحة. اليافع الذي يصل
+          حجمه الى نصف البالغ يغطي جسمه اللون الرمادي مع العلامات البنية.
+        </p>
+
+        <h1 class="text-3xl font-bold mb-4">
+          Greater flamingo - Phoenicopterus roseus
+        </h1>
+        <p class="md:text-xl lg:text-lg">
+          Small kingfisher with brilliant blue and green upperparts, reddish
+          underparts, but buffish white throat and neck patch and long, dark
+          bill, though female has red on most of lower mandible. In flight,
+          which is swift, direct and low over water, luminous back and tail
+          obvious. Fairly shy, often inconspicuous when perched, sitting on
+          branch over water for long periods before diving for fish; will also
+          hover.
+        </p>
+      </div>
+    </section>
+
+    <section class="flex flex-col md:flex-row h-screen hidden" id="hoopoe">
+      <!-- Image Column (60%) -->
+      <div class="w-full md:w-3/5 overflow-hidden">
+        <img
+          src="assets/birds/hoopoe.jpg"
+          alt="Image"
+          class="w-full h-auto object-cover"
+        />
+      </div>
+
+      <!-- Content Column (40%) with custom scrollbar -->
+      <div
+        class="w-full md:w-2/5 bg-white p-8 overflow-y-auto custom-scrollbar"
+      >
+        <h1 class="text-3xl font-bold mb-4 rtl">هدهد</h1>
+        <p class="md:text-xl lg:text-lg rtl mb-5">
+          تتميز الأجنحة والذيل باللون الوردي المصفر مع وجود الأشرطة السوداء
+          والبيضاء الواضحة، التاج طويل ونهايات ريشه سوداء، عادة يكون مضموماً
+          (يرفع عندما يحط الطائر)، المنقار طويل ومنحني والطيران متميز بضربات
+          الأجنحة العريضة التي تذكرنا بالزرياب. يقضي وقتاً كثيراً على الأرض حيث
+          تصعب ملاحظته إلا عندما يطير.
+        </p>
+
+        <h1 class="text-3xl font-bold mb-4">Hoopoe - Upupa epops</h1>
+        <p class="md:text-xl lg:text-lg">
+          Distinctive pinkish buff with bold black and white bars on wings and
+          tail, long black-tipped crest, usually depressed (though raised upon
+          landing), long decurved bill and distinctive flight with flaps of
+          broad wings. Spends much time on the ground where hard to detect;
+          often first noticed when it flies.
+        </p>
+      </div>
+    </section>
+
+    <!-- Custom Scrollbar CSS -->
+    <style>
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.6);
+        border-radius: 10px;
+      }
+
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background-color: #f1f1f1;
+      }
+      .is-close-btn {
+        position: absolute !important;
+        right: 10px !important;
+        top: 10px !important;
+        color: #fff !important;
+        background: #9a8764 !important;
+        outline: none !important;
+        border: #9a8764 !important;
+        padding: 7px;
+      }
+      .fancybox__slide.has-close-btn {
+        padding-top: 0px !important;
+      }
+      .rtl {
+        direction: rtl;
+        text-align: right;
+      }
+      h1 {
+        color: #9a8764;
+      }
+    </style>
+
+    <!-- ScrollReveal (optional) -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="assets/main.js"></script>
+
+    <!-- Initialize Fancybox -->
+    <script>
+      Fancybox.bind("[data-fancybox]", {
+        Thumbs: false,
+      });
+    </script>
+
+    <script>
+      function increment(bookName, bookPrice, bookImage) {
+        const cart = JSON.parse(localStorage.getItem("cart")) || {};
+
+        // If the item is already in the cart, increment the quantity, otherwise set it to 1
+        if (cart[bookName]) {
+          cart[bookName].quantity += 1;
+        } else {
+          cart[bookName] = { quantity: 1, price: bookPrice, image: bookImage }; // Store book image in cart
+        }
+
+        // Save the updated cart to localStorage
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        // Refresh the drawer to reflect updated cart contents
+        checkAndToggleDrawer();
+      }
+
+      function decrement(bookName, bookPrice, bookImage) {
+        const quantityElement = document.getElementById(`quantity-${bookName}`);
+
+        if (quantityElement) {
+          let quantity = parseInt(quantityElement.textContent);
+
+          if (quantity > 1) {
+            // Decrease quantity
+            quantityElement.textContent = quantity - 1;
+            updateCart(bookName, quantity - 1, bookPrice, bookImage);
+          } else {
+            // When quantity goes to 0, remove from cart and UI
+            quantityElement.textContent = 0;
+            updateCart(bookName, 0, bookPrice, bookImage);
+
+            // Remove item from the cart UI
+            const container = document.getElementById(`cart-item-${bookName}`);
+            if (container) {
+              container.remove();
+            }
+          }
+        }
+      }
+
+      function updateCart(bookName, quantity, bookPrice, bookImage) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || {};
+
+        if (quantity > 0) {
+          cart[bookName] = {
+            quantity: quantity,
+            price: bookPrice,
+            image: bookImage,
+          }; // Keep the image in cart
+        } else {
+          delete cart[bookName];
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        checkAndToggleDrawer(); // Update drawer display based on the current cart state
+      }
+      function clearCart() {
+        localStorage.removeItem("cart"); // Clear the cart from local storage
+        updateCartDrawer({}); // Update the drawer UI
+        checkAndToggleDrawer(); // Close the drawer if necessary
+      }
+
+      function toggleCartDrawer() {
+        const drawer = document.getElementById("cartDrawer");
+        const mainContent = document.getElementById("mainContent");
+
+        // If the drawer is closed, open it
+        if (drawer.classList.contains("right-[-100%]")) {
+          drawer.classList.remove("right-[-100%]");
+          drawer.classList.add("right-0");
+          mainContent.classList.add("sm:mr-64", "md:mr-72", "lg:mr-96");
+        } else {
+          // If the drawer is open, close it
+          drawer.classList.remove("right-0");
+          drawer.classList.add("right-[-100%]");
+          mainContent.classList.remove("sm:mr-64", "md:mr-72", "lg:mr-96");
+        }
+      }
+
+      function checkAndToggleDrawer() {
+        let cart = JSON.parse(localStorage.getItem("cart")) || {};
+        const drawer = document.getElementById("cartDrawer");
+        const mainContent = document.getElementById("mainContent");
+
+        if (Object.keys(cart).length > 0) {
+          drawer.classList.remove("right-[-100%]");
+          drawer.classList.add("right-0");
+
+          // Shift the main content to the right (if required)
+          mainContent.classList.add("sm:mr-64", "md:mr-72", "lg:mr-96");
+
+          // Populate the drawer with cart items
+          updateCartDrawer(cart);
+        } else {
+          // Close the drawer if cart is empty
+          drawer.classList.remove("right-0");
+          drawer.classList.add("right-[-100%]");
+
+          // Reset the main content position
+          mainContent.classList.remove("sm:mr-64", "md:mr-72", "lg:mr-96");
+        }
+      }
+
+      function closeDrawer() {
+        const drawer = document.getElementById("cartDrawer");
+        drawer.classList.remove("right-0");
+        drawer.classList.add("right-[-100%]");
+      }
+
+      const bookNameTranslations = {
+        "book-name-1": {
+          en: "Saber",
+          ar: "صابر",
+        },
+        "book-name-2": {
+          en: "From the eyes of Qatari poetry",
+          ar: "من عيون الشعر القطري",
+        },
+        "book-name-3": {
+          en: "First building",
+          ar: "أول مبنى",
+        },
+        // You can add more mappings here
+      };
+
+      // A mapping function to handle inconsistencies
+      function getTranslatedBookName(bookName, language) {
+        // Find the matching key in bookNameTranslations
+        for (const key in bookNameTranslations) {
+          if (bookName.includes(bookNameTranslations[key].en)) {
+            return bookNameTranslations[key][language]; // Return translated name
+          }
+        }
+        return bookName; // Return the original name if no match is found
+      }
+
+      function updateCartDrawer(cart, language = "en") {
+        const cartItemsDiv = document.getElementById("cartItems");
+        cartItemsDiv.innerHTML = ""; // Clear previous items
+
+        // Texts for both languages
+        const translations = {
+          yourCart: {
+            en: "Your Cart",
+            ar: "عربة التسوق",
+          },
+          price: {
+            en: "Price",
+            ar: "السعر",
+          },
+          subtotal: {
+            en: "Subtotal",
+            ar: "المجموع الفرعي",
+          },
+          totalItems: {
+            en: "Total Items",
+            ar: "إجمالي العناصر",
+          },
+          totalAmount: {
+            en: "Total Amount",
+            ar: "المبلغ الإجمالي",
+          },
+        };
+
+        // Update the "Your Cart" heading
+        const cartHeading = document.getElementById("cartHeading");
+        cartHeading.textContent = translations.yourCart[language];
+
+        let totalAmount = 0;
+        let totalItems = 0;
+
+        for (const bookName in cart) {
+          const { quantity, price, image } = cart[bookName]; // Destructure the image property
+          const subtotal = quantity * price;
+          totalAmount += subtotal;
+          totalItems += quantity;
+
+          // Use the mapping function to get the translated book name
+          const translatedBookName = getTranslatedBookName(bookName, language);
+
+          // Include the image and translated content in the cart item HTML
+          const cartItemHTML = `
+            <div id="cart-item-${bookName}" class="mb-4 p-4 bg-[#7C0624] text-white rounded-lg shadow-md">
+                <div class="flex items-center space-x-4">
+                    <img src="${image}" alt="${translatedBookName}" class="w-16 h-16 object-cover rounded-lg"> <!-- Book image -->
+                    <div class="pr-4">
+                        <h3 class="text-lg font-bold">${translatedBookName}</h3>
+                        <p class="text-gray-100">${translations.price[language]}: QAR <span class="rtl">${price}</span></p>
+                        <p class="text-gray-100">${translations.subtotal[language]}: QAR <span class="rtl">${subtotal}</span></p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4 mt-2">
+                    <button onclick="decrement('${bookName}', ${price}, '${image}')" class="bg-[#978768] text-white px-3 py-1 rounded-lg hover:bg-[#B19765]">-</button>
+                    <span id="quantity-${bookName}" class="text-lg font-semibold w-12 text-center"><span class="rtl">${quantity}</span></span>
+                    <button onclick="increment('${bookName}', ${price}, '${image}')" class="bg-[#978768] text-white px-3 py-1 rounded-lg hover:bg-[#B19765]">+</button>
+                </div>
+            </div>
+        `;
+          cartItemsDiv.innerHTML += cartItemHTML;
+        }
+
+        // Add total at the bottom of the cart in the selected language
+        const totalHTML = `
+        <div class="border-t text-white mt-4 pt-2">
+            <h3 class="text-lg font-bold">${translations.totalItems[language]}: <span class="rtl">${totalItems}</span></h3>
+            <p class="text-xl font-semibold">${translations.totalAmount[language]}: QAR <span class="rtl">${totalAmount}</span></p>
+        </div>
+    `;
+        cartItemsDiv.innerHTML += totalHTML;
+
+        document.getElementById("cartItemCount").textContent = totalItems; // Update the cart count dynamically
+      }
+
+      window.onload = loadCartQuantities;
+
+      function loadCartQuantities() {
+        let cart = JSON.parse(localStorage.getItem("cart")) || {};
+
+        for (const bookName in cart) {
+          if (cart.hasOwnProperty(bookName)) {
+            let { quantity, price } = cart[bookName];
+            const cardId = {
+              "First building": 3,
+              // Add other books here...
+            }[bookName];
+
+            if (cardId) {
+              const quantityElement = document.getElementById(
+                `quantity-${bookName}`
+              );
+              if (quantityElement) {
+                quantityElement.textContent = quantity; // Set the UI quantity directly
+              }
+            }
+          }
+        }
+
+        checkAndToggleDrawer();
+      }
+    </script>
+
+    <script>
+      const toggleInput = document.getElementById("toggle");
+      const toggleText = document.getElementById("toggle-text");
+
+      const bookNames = {
+        "book-name-1": {
+          en: "Saber",
+          ar: "صابر",
+        },
+        "book-name-2": {
+          en: "From the eyes of Qatari poetry",
+          ar: "من عيون الشعر القطري",
+        },
+        "book-name-3": {
+          en: "First building",
+          ar: "أول مبنى",
+        },
+      };
+
+      const bookDescriptions = {
+        "book-description-1": {
+          en: "Discover the beauty of birds through stunning photography. This book captures their vibrant colors and unique behaviors, bringing the magic of the avian world to every page.",
+          ar: "اكتشف جمال الطيور من خلال التصوير الفوتوغرافي المذهل. يلتقط هذا الكتاب ألوانها الزاهية وسلوكياتها الفريدة، جالباً سحر عالم الطيور إلى كل صفحة.",
+        },
+        "book-description-2": {
+          en: "Through lyrical verses and evocative imagery, it invites readers on a journey through the heart's quietest corners. A collection where every word resonates with raw, honest emotion.",
+          ar: "من خلال الأبيات الشعرية والصور المثيرة، يدعو القراء إلى رحلة عبر أهدأ زوايا القلب. مجموعة حيث يرن كل كلمة بالعاطفة الصادقة.",
+        },
+        "book-description-3": {
+          en: "First Building delves into the innovative spirit driving the nation's skyline, blending modern skyscrapers with rich heritage. This book showcases how tradition and cutting-edge construction seamlessly intersect.",
+          ar: "يتناول أول مبنى الروح المبتكرة التي تدفع أفق الأمة، ممزوجًا بين ناطحات السحاب الحديثة والتراث الغني. يعرض هذا الكتاب كيف يتداخل التقليد والبناء المتطور بسلاسة.",
+        },
+      };
+
+      const toggleTexts = {
+        "add-to-cart-text": {
+          en: "Add to Cart",
+          ar: "أضف إلى السلة",
+        },
+
+        "preview-text": {
+          en: "Preview",
+          ar: "معاينة",
+        },
+
+        "buy-text": {
+          en: "Buy",
+          ar: "شراء",
+        },
+      };
+
+      toggleInput.addEventListener("change", function () {
+        const isChecked = this.checked;
+        const language = isChecked ? "ar" : "en"; // Use "ar" for Arabic, "en" for English
+
+        // Update toggle text
+        toggleText.textContent = isChecked ? "Ar" : "En";
+
+        // Update book names and descriptions
+        Object.keys(bookNames).forEach((id) => {
+          document.getElementById(id).textContent = isChecked
+            ? bookNames[id].ar
+            : bookNames[id].en;
+        });
+
+        Object.keys(bookDescriptions).forEach((id) => {
+          document.getElementById(id).textContent = isChecked
+            ? bookDescriptions[id].ar
+            : bookDescriptions[id].en;
+        });
+
+        // Update the cart drawer with the selected language
+        const cart = JSON.parse(localStorage.getItem("cart")) || {};
+        updateCartDrawer(cart, language); // Pass the current language to updateCartDrawer
+
+        // Toggle RTL class based on language
+        if (isChecked) {
+          toggleText.textContent = "Ar"; // Show 'Ar' when checked
+          document.querySelector(".dot").style.transform = "translateX(100%)";
+          document.body.classList.add("rtl"); // Adds RTL class when checked
+        } else {
+          toggleText.textContent = "En"; // Show 'En' when not checked
+          document.querySelector(".dot").style.transform = "translateX(0%)";
+          document.body.classList.remove("rtl"); // Removes RTL class when unchecked
+        }
+      });
+
+      window.onload = function () {
+        const isChecked = toggleInput.checked;
+        const language = isChecked ? "ar" : "en";
+
+        // Update the cart drawer with the correct language on load
+        const cart = JSON.parse(localStorage.getItem("cart")) || {};
+        updateCartDrawer(cart, language);
+      };
+    </script>
+  </body>
+</html>

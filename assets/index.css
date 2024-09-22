@@ -1,0 +1,5 @@
+.reveal-scale {
+              /* Initial opacity */
+    transform: scale(0.5);    /* Initial scale */
+    transition: transform 1.35s ease-out; /* Match the ScrollReveal duration */
+}
