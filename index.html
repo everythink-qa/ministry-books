@@ -532,18 +532,21 @@
       </div>
     </section>
 
-    <section class="flex flex-col md:flex-row h-screen hidden" id="saber-book">
+    <section
+      class="flex flex-col md:flex-row h-auto md:h-screen"
+      id="saber-book"
+    >
       <!-- Image Column (60%) -->
       <div class="w-full md:w-3/5 overflow-hidden">
         <div
-          class="image-preview-container h-full bg-white p-5 rounded-lg shadow-lg flex flex-col items-center"
+          class="image-preview-container h-full bg-white p-5 rounded-lg shadow-lg flex flex-col items-center justify-center"
         >
           <!-- Display Image -->
           <img
             id="preview-image"
             src="assets/saber-book/1.png"
             alt="Preview"
-            class="w-80 h-80 object-cover rounded-lg mb-4"
+            class="w-full md:w-80 h-auto md:h-80 object-cover rounded-lg mb-4"
           />
 
           <!-- Page Indicator -->
@@ -570,52 +573,7 @@
         </div>
       </div>
 
-      <script>
-        const images = [
-          "assets/saber-book/1.png",
-          "assets/saber-book/2.png",
-          "assets/saber-book/3.png",
-          "assets/saber-book/4.png",
-          "assets/saber-book/5.png",
-          "assets/saber-book/6.png",
-          "assets/saber-book/7.png",
-          "assets/saber-book/8.png",
-        ]; // List of images
-        let currentPage = 1;
-
-        const imageElement = document.getElementById("preview-image");
-        const pageNumberElement = document.getElementById("page-number");
-        const prevBtn = document.getElementById("prev-btn");
-        const nextBtn = document.getElementById("next-btn");
-
-        function updatePage() {
-          imageElement.src = images[currentPage - 1]; // Change the image
-          pageNumberElement.textContent = currentPage; // Update the page number
-
-          // Enable/Disable buttons based on the page
-          prevBtn.disabled = currentPage === 1;
-          nextBtn.disabled = currentPage === images.length;
-        }
-
-        // Handle Next button click
-        nextBtn.addEventListener("click", function () {
-          if (currentPage < images.length) {
-            currentPage++;
-            updatePage();
-          }
-        });
-
-        // Handle Previous button click
-        prevBtn.addEventListener("click", function () {
-          if (currentPage > 1) {
-            currentPage--;
-            updatePage();
-          }
-        });
-      </script>
-
       <!-- Content Column (40%) with custom scrollbar -->
-      |
       <div
         class="w-full md:w-2/5 bg-white p-8 overflow-y-auto custom-scrollbar"
       >
@@ -642,6 +600,50 @@
         </p>
       </div>
     </section>
+
+    <script>
+      const images = [
+        "assets/saber-book/1.png",
+        "assets/saber-book/2.png",
+        "assets/saber-book/3.png",
+        "assets/saber-book/4.png",
+        "assets/saber-book/5.png",
+        "assets/saber-book/6.png",
+        "assets/saber-book/7.png",
+        "assets/saber-book/8.png",
+      ]; // List of images
+      let currentPage = 1;
+
+      const imageElement = document.getElementById("preview-image");
+      const pageNumberElement = document.getElementById("page-number");
+      const prevBtn = document.getElementById("prev-btn");
+      const nextBtn = document.getElementById("next-btn");
+
+      function updatePage() {
+        imageElement.src = images[currentPage - 1]; // Change the image
+        pageNumberElement.textContent = currentPage; // Update the page number
+
+        // Enable/Disable buttons based on the page
+        prevBtn.disabled = currentPage === 1;
+        nextBtn.disabled = currentPage === images.length;
+      }
+
+      // Handle Next button click
+      nextBtn.addEventListener("click", function () {
+        if (currentPage < images.length) {
+          currentPage++;
+          updatePage();
+        }
+      });
+
+      // Handle Previous button click
+      prevBtn.addEventListener("click", function () {
+        if (currentPage > 1) {
+          currentPage--;
+          updatePage();
+        }
+      });
+    </script>
 
     <section class="flex flex-col md:flex-row h-screen hidden" id="hoopoe">
       <!-- Image Column (60%) -->
