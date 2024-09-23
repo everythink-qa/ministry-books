@@ -726,11 +726,11 @@
 
     <script>
       // Assume we have a global variable `language` which changes based on the toggle
-      let language = "en"; // Default language is English
+      let language = "ar"; // Default language is English
 
       // Function to toggle language (can be called when the user toggles the language switch)
       function toggleLanguage() {
-        language = language === "en" ? "ar" : "en";
+        language = language === "ar" ? "en" : "ar";
         const cart = JSON.parse(localStorage.getItem("cart")) || {};
         updateCartDrawer(cart); // Call the cart update function with the updated language
       }
@@ -1071,7 +1071,7 @@
 
         // Other necessary updates like cart drawer and RTL class
         const cart = JSON.parse(localStorage.getItem("cart")) || {};
-        updateCartDrawer(cart, language); // Pass the current language to updateCartDrawer
+        updateCartDrawer(cart); // Pass the current language to updateCartDrawer
 
         // Toggle RTL class based on language
         if (isChecked) {
@@ -1110,7 +1110,7 @@
 
         // Update the cart drawer with the Arabic language
         const cart = JSON.parse(localStorage.getItem("cart")) || {};
-        updateCartDrawer(cart, "ar");
+        updateCartDrawer(cart);
 
         // Move the toggle dot to the "Ar" position
         document.querySelector(".dot").style.transform = "translateX(100%)";
