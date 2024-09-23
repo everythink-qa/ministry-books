@@ -26,6 +26,9 @@
         font-style: normal;
       }
       .rtl {
+        font-family: "Qatar Font" !important;
+      }
+      .rtl_number {
         font-family: "QatarFont" !important;
       }
       .rtl .toggleswitch {
@@ -116,7 +119,9 @@
           onclick="clearCart()"
           class="w-full bg-black text-white py-2 rounded-lg hover:bg-[#7C0624] transition duration-300 rtl:text-QatarFont"
         >
-          Clear Cart
+          <span class="toggle-text" data-text-type="clear-cart-text"
+            >Clear Cart</span
+          >
         </button>
       </div>
 
@@ -125,7 +130,9 @@
           onclick="checkout()"
           class="w-full bg-[#978768] text-white py-2 rounded-lg hover:bg-[#B19765] transition duration-300"
         >
-          Checkout
+          <span class="toggle-text" data-text-type="check-out-text"
+            >Check Out</span
+          >
         </button>
       </div>
     </div>
@@ -195,7 +202,7 @@
                 <!-- Notification for the number of items in the cart -->
                 <span
                   id="cartItemCount"
-                  class="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center rtl"
+                  class="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center rtl_number"
                   >0</span
                 >
               </button>
@@ -218,13 +225,11 @@
               <h2 id="book-name-1" class="text-xl font-bold text-gray-800 mb-2">
                 Saber
               </h2>
-              <p id="book-description-1" class="text-gray-600 mb-4">
-                Discover the beauty of birds through stunning photography. This
-                book captures their vibrant colors and unique behaviors,
-                bringing the magic of the avian world to every page.
-              </p>
+              <br />
+
               <p class="text-2xl font-semibold text-gray-800 mb-5">
-                QAR <span class="rtl">250</span>
+                <span class="toggle-text" data-text-type="qar-text">QAR</span>
+                <span class="rtl_number">250</span>
               </p>
 
               <div class="flex justify-between">
@@ -232,7 +237,9 @@
                   <button
                     class="buy-btn bg-[#9a8764] text-white py-2 px-4 rounded-lg hover:bg-[#961F3D] hover:scale-105 transition-all duration-300"
                   >
-                    <span id="preview-text-1">Preview</span>
+                    <span class="toggle-text" data-text-type="preview-text"
+                      >Preview</span
+                    >
                   </button>
                 </a>
                 <div id="cart-button-container-1">
@@ -243,7 +250,9 @@
                     class="bg-[#961F3D] text-white py-2 px-3 rounded-lg hover:bg-[#7C0624] transition-all duration-300"
                     onclick="increment('Saber', 250, 'assets/Saber.jpg')"
                   >
-                    Add to Cart
+                    <span class="toggle-text" data-text-type="add-to-cart-text"
+                      >Add to Cart</span
+                    >
                   </button>
                 </div>
               </div>
@@ -262,20 +271,24 @@
               <h2 id="book-name-2" class="text-xl font-bold text-gray-800 mb-2">
                 From the eyes of Qatari poetry
               </h2>
-              <p id="book-description-2" class="text-gray-600 mb-4">
+              <br />
+              <!-- <p id="book-description-2" class="text-gray-600 mb-4">
                 Through lyrical verses and evocative imagery, it invites readers
                 on a journey through the heart's quietest corners. A collection
                 where every word resonates with raw, honest emotion.
-              </p>
+              </p> -->
               <p class="text-2xl font-semibold text-gray-800 mb-5">
-                QAR <span class="rtl">300</span>
+                <span class="toggle-text" data-text-type="qar-text">QAR</span>
+                <span class="rtl_number">300</span>
               </p>
               <div class="flex justify-between">
                 <a data-fancybox data-src="#poetry-book">
                   <button
                     class="buy-btn bg-[#9a8764] text-white py-2 px-4 rounded-lg hover:bg-[#961F3D] hover:scale-105 transition-all duration-300"
                   >
-                    <span id="preview-text-2">Preview</span>
+                    <span class="toggle-text" data-text-type="preview-text"
+                      >Preview</span
+                    >
                   </button>
                 </a>
                 <div id="cart-button-container-2">
@@ -286,7 +299,9 @@
                     class="bg-[#961F3D] text-white py-2 px-3 rounded-lg hover:bg-[#7C0624] transition-all duration-300"
                     onclick="increment('From the eyes of Qatari poetry', 300, 'assets/poetry.jpg')"
                   >
-                    Add to Cart
+                    <span class="toggle-text" data-text-type="add-to-cart-text"
+                      >Add to Cart</span
+                    >
                   </button>
                 </div>
               </div>
@@ -305,21 +320,25 @@
               <h2 id="book-name-3" class="text-xl font-bold text-gray-800 mb-2">
                 First building
               </h2>
-              <p id="book-description-3" class="text-gray-600 mb-4">
+              <br />
+              <!-- <p id="book-description-3" class="text-gray-600 mb-4">
                 First Building delves into the innovative spirit driving the
                 nation's skyline, blending modern skyscrapers with rich
                 heritage. This book showcases how tradition and cutting-edge
                 construction seamlessly intersect.
-              </p>
+              </p> -->
               <p class="text-2xl font-semibold text-gray-800 mb-5">
-                QAR <span class="rtl">300</span>
+                <span class="toggle-text" data-text-type="qar-text">QAR</span>
+                <span class="rtl_number">300</span>
               </p>
               <div class="flex justify-between">
                 <a data-fancybox data-src="#building-book">
                   <button
                     class="buy-btn bg-[#9a8764] text-white py-2 px-4 rounded-lg hover:bg-[#961F3D] hover:scale-105 transition-all duration-300"
                   >
-                    <span id="preview-text-3">Preview</span>
+                    <span class="toggle-text" data-text-type="preview-text"
+                      >Preview</span
+                    >
                   </button>
                 </a>
                 <div id="cart-button-container-3">
@@ -330,7 +349,9 @@
                     class="bg-[#961F3D] text-white py-2 px-3 rounded-lg hover:bg-[#7C0624] transition-all duration-300"
                     onclick="increment('First building', 300, 'assets/duharil.jpg')"
                   >
-                    Add to Cart
+                    <span class="toggle-text" data-text-type="add-to-cart-text"
+                      >Add to Cart</span
+                    >
                   </button>
                 </div>
               </div>
@@ -423,7 +444,7 @@
             class="w-[80%] md:w-[90%] xl:w-[90%] mx-auto mt-8 md:mt-10 xl:mt-20 reveal-bottom text-center text-[#961F3D]"
           >
             All rights reserved to the Ministry of Culture - State of Qatar ©
-            <span class="rtl">2024</span>
+            <span class="rtl_number">2024</span>
           </div>
         </div>
       </div>
@@ -704,6 +725,16 @@
     </script>
 
     <script>
+      // Assume we have a global variable `language` which changes based on the toggle
+      let language = "en"; // Default language is English
+
+      // Function to toggle language (can be called when the user toggles the language switch)
+      function toggleLanguage() {
+        language = language === "en" ? "ar" : "en";
+        const cart = JSON.parse(localStorage.getItem("cart")) || {};
+        updateCartDrawer(cart); // Call the cart update function with the updated language
+      }
+
       function increment(bookName, bookPrice, bookImage) {
         const cart = JSON.parse(localStorage.getItem("cart")) || {};
 
@@ -721,31 +752,31 @@
         checkAndToggleDrawer();
       }
       function decrement(bookName, bookPrice, bookImage) {
-  const quantityElement = document.getElementById(`quantity-${bookName}`);
+        const quantityElement = document.getElementById(`quantity-${bookName}`);
 
-  if (quantityElement) {
-    let quantity = parseInt(quantityElement.textContent);
+        if (quantityElement) {
+          let quantity = parseInt(quantityElement.textContent);
 
-    if (quantity > 1) {
-      // Decrease quantity
-      quantityElement.textContent = quantity - 1;
-      updateCart(bookName, quantity - 1, bookPrice, bookImage);
-    } else {
-      // When quantity reaches 0, remove the item from cart and UI
-      updateCart(bookName, 0, bookPrice, bookImage);
+          if (quantity > 1) {
+            // Decrease quantity
+            quantityElement.textContent = quantity - 1;
+            updateCart(bookName, quantity - 1, bookPrice, bookImage);
+          } else {
+            // When quantity reaches 0, remove the item from cart and UI
+            updateCart(bookName, 0, bookPrice, bookImage);
 
-      // Remove the item from the UI
-      const container = document.getElementById(`cart-item-${bookName}`);
-      if (container) {
-        container.remove();
+            // Remove the item from the UI
+            const container = document.getElementById(`cart-item-${bookName}`);
+            if (container) {
+              container.remove();
+            }
+          }
+
+          // Update cart drawer to recalculate totals
+          const cart = JSON.parse(localStorage.getItem("cart")) || {};
+          updateCartDrawer(cart);
+        }
       }
-    }
-    
-    // Update cart drawer to recalculate totals
-    const cart = JSON.parse(localStorage.getItem("cart")) || {};
-    updateCartDrawer(cart);
-  }
-}
 
       function updateCart(bookName, quantity, bookPrice, bookImage) {
         let cart = JSON.parse(localStorage.getItem("cart")) || {};
@@ -829,25 +860,26 @@
           en: "First building",
           ar: "بنيان الاول",
         },
-        // You can add more mappings here
       };
 
       // A mapping function to handle inconsistencies
       function getTranslatedBookName(bookName, language) {
-        // Find the matching key in bookNameTranslations
+        // Iterate over bookNameTranslations and compare the English name
         for (const key in bookNameTranslations) {
-          if (bookName.includes(bookNameTranslations[key].ar)) {
+          if (
+            bookName === bookNameTranslations[key].en ||
+            bookName === bookNameTranslations[key].ar
+          ) {
             return bookNameTranslations[key][language]; // Return translated name
           }
         }
         return bookName; // Return the original name if no match is found
       }
 
-      function updateCartDrawer(cart, language = "ar") {
+      function updateCartDrawer(cart) {
         const cartItemsDiv = document.getElementById("cartItems");
         cartItemsDiv.innerHTML = ""; // Clear previous items
 
-        // Texts for both languages
         const translations = {
           yourCart: {
             en: "Your Cart",
@@ -867,11 +899,14 @@
           },
           totalAmount: {
             en: "Total Amount",
-            ar: "المبلغ الإجمالي",
+            ar: "المجموع ",
+          },
+          qarText: {
+            en: "QAR",
+            ar: "ريال",
           },
         };
 
-        // Update the "Your Cart" heading
         const cartHeading = document.getElementById("cartHeading");
         cartHeading.textContent = translations.yourCart[language];
 
@@ -889,32 +924,31 @@
 
           // Include the image and translated content in the cart item HTML
           const cartItemHTML = `
-            <div id="cart-item-${bookName}" class="mb-4 p-4 bg-[#7C0624] text-white rounded-lg shadow-md">
-                <div class="flex items-center space-x-4">
-                    <img src="${image}" alt="${translatedBookName}" class="w-16 h-16 object-cover rounded-lg"> <!-- Book image -->
-                    <div class="pr-4">
-                        <h3 class="text-lg font-bold">${translatedBookName}</h3>
-                        <p class="text-gray-100">${translations.price[language]}: QAR <span class="rtl">${price}</span></p>
-                        <p class="text-gray-100">${translations.subtotal[language]}: QAR <span class="rtl">${subtotal}</span></p>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-4 mt-2">
-                    <button onclick="decrement('${bookName}', ${price}, '${image}')" class="bg-[#978768] text-white px-3 py-1 rounded-lg hover:bg-[#B19765]">-</button>
-                    <span id="quantity-${bookName}" class="text-lg font-semibold w-12 text-center"><span class="rtl">${quantity}</span></span>
-                    <button onclick="increment('${bookName}', ${price}, '${image}')" class="bg-[#978768] text-white px-3 py-1 rounded-lg hover:bg-[#B19765]">+</button>
-                </div>
-            </div>
-        `;
+      <div id="cart-item-${bookName}" class="mb-4 p-4 bg-[#7C0624] text-white rounded-lg shadow-md">
+          <div class="flex items-center space-x-4">
+              <img src="${image}" alt="${translatedBookName}" class="w-16 h-16 object-cover rounded-lg"> <!-- Book image -->
+              <div class="pr-4">
+                  <h3 class="text-lg font-bold">${translatedBookName}</h3>
+                  <p class="text-gray-100">${translations.price[language]}: ${translations.qarText[language]} <span class="rtl_number">${price}</span></p>
+                  <p class="text-gray-100">${translations.subtotal[language]}: ${translations.qarText[language]} <span class="rtl_number">${subtotal}</span></p>
+              </div>
+          </div>
+          <div class="flex items-center space-x-4 mt-2">
+              <button onclick="decrement('${bookName}', ${price}, '${image}')" class="bg-[#978768] text-white px-3 py-1 rounded-lg hover:bg-[#B19765]">-</button>
+              <span id="quantity-${bookName}" class="text-lg font-semibold w-12 text-center"><span class="rtl_number">${quantity}</span></span>
+              <button onclick="increment('${bookName}', ${price}, '${image}')" class="bg-[#978768] text-white px-3 py-1 rounded-lg hover:bg-[#B19765]">+</button>
+          </div>
+      </div>
+    `;
           cartItemsDiv.innerHTML += cartItemHTML;
         }
 
-        // Add total at the bottom of the cart in the selected language
         const totalHTML = `
-        <div class="border-t text-white mt-4 pt-2">
-            <h3 class="text-lg font-bold">${translations.totalItems[language]}: <span class="rtl">${totalItems}</span></h3>
-            <p class="text-xl font-semibold">${translations.totalAmount[language]}: QAR <span class="rtl">${totalAmount}</span></p>
-        </div>
-    `;
+    <div class="border-t text-white mt-4 pt-2">
+        <h3 class="text-lg font-bold">${translations.totalItems[language]}: <span class="rtl_number">${totalItems}</span></h3>
+        <p class="text-xl font-semibold">${translations.totalAmount[language]}: ${translations.qarText[language]} <span class="rtl_number">${totalAmount}</span></p>
+    </div>
+  `;
         cartItemsDiv.innerHTML += totalHTML;
 
         document.getElementById("cartItemCount").textContent = totalItems; // Update the cart count dynamically
@@ -930,7 +964,8 @@
             let { quantity, price } = cart[bookName];
             const cardId = {
               "First building": 3,
-              // Add other books here...
+              "From the eyes of Qatari poetry": 2,
+              Saber: 1,
             }[bookName];
 
             if (cardId) {
@@ -948,114 +983,138 @@
       }
     </script>
 
-   <script>
-  const toggleInput = document.getElementById("toggle");
-  const toggleText = document.getElementById("toggle-text");
+    <script>
+      const toggleInput = document.getElementById("toggle");
+      const toggleText = document.getElementById("toggle-text");
 
-  const bookNames = {
-    "book-name-1": {
-      en: "Saber",
-      ar: "سابر",
-    },
-    "book-name-2": {
-      en: "From the eyes of Qatari poetry",
-      ar: "من عيون الشعر القطري",
-    },
-    "book-name-3": {
-      en: "First building",
-      ar: "بنيان الاول",
-    },
-  };
+      const bookNames = {
+        "book-name-1": {
+          en: "Saber",
+          ar: "سابر",
+        },
+        "book-name-2": {
+          en: "From the eyes of Qatari poetry",
+          ar: "من عيون الشعر القطري",
+        },
+        "book-name-3": {
+          en: "First building",
+          ar: "بنيان الاول",
+        },
+      };
 
-  const bookDescriptions = {
-    "book-description-1": {
-      en: "Discover the beauty of birds through stunning photography. This book captures their vibrant colors and unique behaviors, bringing the magic of the avian world to every page.",
-      ar: "اكتشف جمال الطيور من خلال التصوير الفوتوغرافي المذهل. يلتقط هذا الكتاب ألوانها الزاهية وسلوكياتها الفريدة، جالباً سحر عالم الطيور إلى كل صفحة.",
-    },
-    "book-description-2": {
-      en: "Through lyrical verses and evocative imagery, it invites readers on a journey through the heart's quietest corners. A collection where every word resonates with raw, honest emotion.",
-      ar: "من خلال الأبيات الشعرية والصور المثيرة، يدعو القراء إلى رحلة عبر أهدأ زوايا القلب. مجموعة حيث يرن كل كلمة بالعاطفة الصادقة.",
-    },
-    "book-description-3": {
-      en: "First Building delves into the innovative spirit driving the nation's skyline, blending modern skyscrapers with rich heritage. This book showcases how tradition and cutting-edge construction seamlessly intersect.",
-      ar: "يتناول أول مبنى الروح المبتكرة التي تدفع أفق الأمة، ممزوجًا بين ناطحات السحاب الحديثة والتراث الغني. يعرض هذا الكتاب كيف يتداخل التقليد والبناء المتطور بسلاسة.",
-    },
-  };
+      const bookDescriptions = {
+        // "book-description-1": {
+        //   en: "Discover the beauty of birds through stunning photography. This book captures their vibrant colors and unique behaviors, bringing the magic of the avian world to every page.",
+        //   ar: "اكتشف جمال الطيور من خلال التصوير الفوتوغرافي المذهل. يلتقط هذا الكتاب ألوانها الزاهية وسلوكياتها الفريدة، جالباً سحر عالم الطيور إلى كل صفحة.",
+        // },
+        // "book-description-2": {
+        //   en: "Through lyrical verses and evocative imagery, it invites readers on a journey through the heart's quietest corners. A collection where every word resonates with raw, honest emotion.",
+        //   ar: "من خلال الأبيات الشعرية والصور المثيرة، يدعو القراء إلى رحلة عبر أهدأ زوايا القلب. مجموعة حيث يرن كل كلمة بالعاطفة الصادقة.",
+        // },
+        // "book-description-3": {
+        //   en: "First Building delves into the innovative spirit driving the nation's skyline, blending modern skyscrapers with rich heritage. This book showcases how tradition and cutting-edge construction seamlessly intersect.",
+        //   ar: "يتناول أول مبنى الروح المبتكرة التي تدفع أفق الأمة، ممزوجًا بين ناطحات السحاب الحديثة والتراث الغني. يعرض هذا الكتاب كيف يتداخل التقليد والبناء المتطور بسلاسة.",
+        // },
+      };
 
-  const toggleTexts = {
-    "add-to-cart-text": {
-      en: "Add to Cart",
-      ar: "أضف إلى السلة",
-    },
-    "preview-text": {
-      en: "Preview",
-      ar: "معاينة",
-    },
-    "buy-text": {
-      en: "Buy",
-      ar: "شراء",
-    },
-  };
+      const toggleTexts = {
+        "add-to-cart-text": {
+          en: "Add to Cart",
+          ar: "أضف إلى السلة",
+        },
+        "preview-text": {
+          en: "Preview",
+          ar: "معاينة",
+        },
+        "check-out-text": {
+          en: "Check Out",
+          ar: "الدفع",
+        },
+        "clear-cart-text": {
+          en: "Clear Cart",
+          ar: "عربة واضحة",
+        },
+        "qar-text": {
+          en: "QAR",
+          ar: "ريال",
+        },
+      };
 
-  toggleInput.addEventListener("change", function () {
-    const isChecked = this.checked;
-    const language = isChecked ? "ar" : "en"; // Use "ar" for Arabic, "en" for English
+      toggleInput.addEventListener("change", function () {
+        const isChecked = this.checked;
+        //   const language = isChecked ? "ar" : "en"; // Use "ar" for Arabic, "en" for English
+        language = isChecked ? "ar" : "en";
 
-    // Update toggle text
-    toggleText.textContent = isChecked ? "Ar" : "En";
+        // Update toggle text (for language selection)
+        toggleText.textContent = isChecked ? "Ar" : "En";
 
-    // Update book names and descriptions
-    Object.keys(bookNames).forEach((id) => {
-      document.getElementById(id).textContent = isChecked
-        ? bookNames[id].ar
-        : bookNames[id].en;
-    });
+        // Update book names and descriptions
+        Object.keys(bookNames).forEach((id) => {
+          document.getElementById(id).textContent = isChecked
+            ? bookNames[id].ar
+            : bookNames[id].en;
+        });
 
-    Object.keys(bookDescriptions).forEach((id) => {
-      document.getElementById(id).textContent = isChecked
-        ? bookDescriptions[id].ar
-        : bookDescriptions[id].en;
-    });
+        Object.keys(bookDescriptions).forEach((id) => {
+          document.getElementById(id).textContent = isChecked
+            ? bookDescriptions[id].ar
+            : bookDescriptions[id].en;
+        });
 
-    // Update the cart drawer with the selected language
-    const cart = JSON.parse(localStorage.getItem("cart")) || {};
-    updateCartDrawer(cart, language); // Pass the current language to updateCartDrawer
+        // Update all text elements based on the language selected
+        document.querySelectorAll(".toggle-text").forEach((element) => {
+          const textType = element.getAttribute("data-text-type");
+          if (toggleTexts[textType]) {
+            element.textContent = toggleTexts[textType][language];
+          }
+        });
 
-    // Toggle RTL class based on language
-    if (isChecked) {
-      document.querySelector(".dot").style.transform = "translateX(100%)";
-      document.body.classList.add("rtl"); // Adds RTL class when checked
-    } else {
-      document.querySelector(".dot").style.transform = "translateX(0%)";
-      document.body.classList.remove("rtl"); // Removes RTL class when unchecked
-    }
-  });
+        // Other necessary updates like cart drawer and RTL class
+        const cart = JSON.parse(localStorage.getItem("cart")) || {};
+        updateCartDrawer(cart, language); // Pass the current language to updateCartDrawer
 
-  window.onload = function () {
-    // By default, we want the language to be Arabic
-    toggleInput.checked = true; // Set the toggle to checked (Arabic)
-    toggleText.textContent = "Ar"; // Set the initial toggle text to Arabic
+        // Toggle RTL class based on language
+        if (isChecked) {
+          document.querySelector(".dot").style.transform = "translateX(100%)";
+          document.body.classList.add("rtl"); // Adds RTL class when checked
+        } else {
+          document.querySelector(".dot").style.transform = "translateX(0%)";
+          document.body.classList.remove("rtl"); // Removes RTL class when unchecked
+        }
+      });
 
-    // Update the content to Arabic by default
-    Object.keys(bookNames).forEach((id) => {
-      document.getElementById(id).textContent = bookNames[id].ar;
-    });
+      window.onload = function () {
+        // By default, we want the language to be Arabic
+        toggleInput.checked = true; // Set the toggle to checked (Arabic)
+        toggleText.textContent = "Ar"; // Set the initial toggle text to Arabic
 
-    Object.keys(bookDescriptions).forEach((id) => {
-      document.getElementById(id).textContent = bookDescriptions[id].ar;
-    });
+        // Update the content to Arabic by default
+        Object.keys(bookNames).forEach((id) => {
+          document.getElementById(id).textContent = bookNames[id].ar;
+        });
 
-    // Add the RTL class to the body
-    document.body.classList.add("rtl");
+        Object.keys(bookDescriptions).forEach((id) => {
+          document.getElementById(id).textContent = bookDescriptions[id].ar;
+        });
 
-    // Update the cart drawer with the Arabic language
-    const cart = JSON.parse(localStorage.getItem("cart")) || {};
-    updateCartDrawer(cart, "ar");
+        // Update all text elements to Arabic by default
+        document.querySelectorAll(".toggle-text").forEach((element) => {
+          const textType = element.getAttribute("data-text-type");
+          if (toggleTexts[textType]) {
+            element.textContent = toggleTexts[textType]["ar"];
+          }
+        });
 
-    // Move the toggle dot to the "Ar" position
-    document.querySelector(".dot").style.transform = "translateX(100%)";
-  };
-</script>
+        // Add the RTL class to the body
+        document.body.classList.add("rtl");
 
+        // Update the cart drawer with the Arabic language
+        const cart = JSON.parse(localStorage.getItem("cart")) || {};
+        updateCartDrawer(cart, "ar");
+
+        // Move the toggle dot to the "Ar" position
+        document.querySelector(".dot").style.transform = "translateX(100%)";
+      };
+    </script>
   </body>
 </html>
